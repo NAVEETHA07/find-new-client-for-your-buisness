@@ -1,0 +1,78 @@
+Outsourcing Prediction Model
+This project uses web scraping, data analysis, and machine learning techniques to predict the likelihood of outsourcing within companies based on their characteristics, such as funding, location, industry, and employee information. The model is trained using data scraped from Crunchbase, and predictions are made based on various company features.
+
+Features
+Web scraping of Crunchbase data to collect company information (name, industry, location, funding).
+Data cleaning and analysis of scraped data.
+Feature engineering to create relevant features such as company age and funding per employee.
+Logistic Regression model to predict the likelihood of outsourcing for companies.
+Deployment and ongoing monitoring of the model, with periodic retraining based on new data.
+Prerequisites
+Ensure you have the following Python libraries installed before running the code:
+
+requests
+beautifulsoup4
+pandas
+scikit-learn
+pickle
+time
+You can install them using pip:
+
+bash
+Copy
+pip install requests beautifulsoup4 pandas scikit-learn
+Code Walkthrough
+1. Web Scraping (scrape_crunchbase_data)
+The scrape_crunchbase_data function scrapes Crunchbase's website to retrieve information on recently funded companies. It gathers the company name, industry, location, and funding details and stores this data in a pandas DataFrame.
+
+2. Data Cleaning and Analysis (clean_and_analyze_data)
+The clean_and_analyze_data function cleans the raw data by:
+
+Converting funding information to numeric format.
+Extracting the first part of the location and industry columns.
+Performing basic statistical analysis on the data.
+Grouping the data by industry and location to calculate the mean funding in each group.
+3. Feature Engineering (engineer_features)
+The engineer_features function adds new features to the DataFrame:
+
+Company Age (calculated based on the year the company was founded).
+Funding per Employee (calculated by dividing funding by the number of employees).
+Industry Growth Rate (calculated as the percentage change in funding per industry).
+4. Model Development (train_outsourcing_prediction_model)
+The train_outsourcing_prediction_model function splits the data into training and test sets and trains a Logistic Regression model to predict the likelihood of outsourcing (represented by the Outsourcing_Likelihood column in the dataset). It returns the trained model and prints its accuracy on the test set.
+
+5. Deployment and Monitoring (monitor_model_performance)
+The monitor_model_performance function continuously monitors for new company data (saved as a CSV file), predicts the outsourcing likelihood using the trained model, and appends the predictions to the data. It saves the updated data to a new CSV file and repeats the process every 24 hours.
+
+6. Main Function (main)
+The main function ties everything together:
+
+Scrapes data from Crunchbase.
+Cleans and analyzes the data.
+Engineers relevant features.
+Trains a model to predict outsourcing likelihood.
+Saves the trained model to a .pkl file.
+Initiates the model monitoring process.
+How to Use
+Run the script: Run the Python script to start the process of scraping Crunchbase data, cleaning and analyzing the data, training the model, and starting the ongoing monitoring. The script will run indefinitely, checking for new data every 24 hours.
+
+bash
+Copy
+python outsourcing_prediction.py
+Model Deployment: After running the script, the trained model will be saved to a file called outsourcing_prediction_model.pkl. This model can be used to make predictions on new data by loading it with pickle.
+
+Monitoring New Data: The monitor_model_performance function will check for new data in the file new_company_data.csv. Ensure that new company data is available in this CSV format for continuous monitoring.
+
+Output
+The script will save a outsourcing_prediction_model.pkl file that contains the trained Logistic Regression model.
+The monitoring function will periodically update updated_company_data.csv with predictions for outsourcing likelihood.
+Troubleshooting
+If you're encountering issues with the web scraping part, ensure that the HTML structure of Crunchbase hasn't changed. You might need to update the scraping logic to match any changes on the website.
+If the model accuracy is low, consider improving the feature engineering or using a different machine learning algorithm.
+License
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+Acknowledgments
+Crunchbase for providing the data.
+The scikit-learn team for their logistic regression model.
+BeautifulSoup for web scraping.
